@@ -1,0 +1,136 @@
+﻿@model G23NHNT.Models.HomeViewModel
+@{
+    ViewData["Title"] = "Trang Chủ";
+    var userRole = ViewBag.UserRole;
+}
+
+<link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<div class="container-fluid mt-3">
+    <div class="d-flex justify-content-start mb-4">
+        <input type="text" class="form-control" placeholder="Tìm kiếm..." style="width: 300px; margin-right: 10px;">
+        <button class="btn btn-primary mr-2">Danh mục</button>
+        @if (!User.Identity.IsAuthenticated || Model.IsChuTro)
+        {
+            <a href="javascript:void(0)" class="btn btn-primary mr-2" style="margin-left: 10px;" data-toggle="modal"
+                data-target="#chooseListingTypeModal">
+                Cung cấp thông tin nhà trọ
+            </a>
+
+            <a asp-action="ListHouseRoom" asp-controller="QuanLi" asp-route-userId="@ViewBag.userId" class="btn btn-primary mr-2"
+                style="margin-left: 10px;">
+                Quản lí bài đăng
+            </a>
+        }
+        <div class="modal fade" id="chooseListingTypeModal" tabindex="-1" role="dialog"
+            aria-labelledby="chooseListingTypeModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chooseListingTypeModalLabel">Chọn loại thông tin muốn đăng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn muốn đăng thông tin:</p>
+                        @if (User.Identity.IsAuthenticated && Model.IsChuTro)
+                        {
+                            <a href="@Url.Action("Create", "House")" class="btn btn-success btn-block">Nhà trọ</a>
+                            <a href="@Url.Action("Create", "Room")" class="btn btn-info btn-block">Phòng trọ</a>
+                        }
+                        else
+                        {
+                            <a href="javascript:void(0);" class="btn btn-success btn-block"
+                                onclick="return promptLogin('@Url.Action("Login", "Account", new { returnUrl = Url.Action("Index", "Home") })');">
+                                Nhà trọ
+                            </a>
+                            <a href="javascript:void(0);" class="btn btn-info btn-block"
+                                onclick="return promptLogin('@Url.Action("Login", "Account", new { returnUrl = Url.Action("Index", "Home") })');">
+                                Phòng trọ
+                            </a>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>IsAuthenticated: @User.Identity.IsAuthenticated</p>
+    <p>IsChuTro: @Model.IsChuTro</p>
+
+
+    <h2>Danh Sách Nhà Trọ</h2>
+    <div class="container-body">
+        <div class="row">
+            @foreach (var house in Model.Houses)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="@house.HouseDetails.FirstOrDefault()?.Image" class="card-img-top" alt="@house.NameHouse"
+                            style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@house.NameHouse</h5>
+                            <p class="card-text"><strong>Địa chỉ:</strong> @house.HouseDetails.FirstOrDefault()?.Address</p>
+                            <p class="card-text"><strong>Giá nhà:</strong>
+                                @house.HouseDetails.FirstOrDefault()?.Price.ToString("#,0", new
+                                         System.Globalization.CultureInfo("vi-VN")) VND</p>
+                            <p class="card-text"><strong>Diện tích:</strong> @house.HouseDetails.FirstOrDefault()?.DienTich
+                                m²</p>
+                            <p class="card-text"><strong>Số phòng:</strong> @house.QuantityRoom</p>
+                            <p class="card-text"><strong>Ngày đăng:</strong>
+                                @house.HouseDetails.FirstOrDefault()?.TimePost.ToString("dd/MM/yyyy")</p>
+                            <a asp-controller="Home" asp-action="Detail" asp-route-id="@house.IdHouse"
+                                asp-route-type="house" class="btn btn-view-detail">
+                                <i class="fas fa-eye icon"></i> Xem Chi Tiết
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <h2 class="mt-4">Danh Sách Phòng Trọ</h2>
+    <div class="container-body">
+        <div class="row">
+            @foreach (var room in Model.Rooms)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card">
+                        <img src="@room.RoomDetails.FirstOrDefault()?.Image" class="card-img-top" alt="@room.NameRoom"
+                            style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.NameRoom</h5>
+                            <p class="card-text"><strong>Địa chỉ:</strong> @room.RoomDetails.FirstOrDefault()?.Address</p>
+                            <p class="card-text"><strong>Giá phòng:</strong>
+                                @room.RoomDetails.FirstOrDefault()?.Price.ToString("#,0", new
+                                         System.Globalization.CultureInfo("vi-VN")) VND</p>
+                            <p class="card-text"><strong>Diện tích:</strong> @room.RoomDetails.FirstOrDefault()?.DienTich m²
+                            </p>
+                            <p class="card-text"><strong>Ngày đăng:</strong>
+                                @room.RoomDetails.FirstOrDefault()?.TimePost.ToString("dd/MM/yyyy")</p>
+                            <a asp-controller="Home" asp-action="Detail" asp-route-id="@room.IdRoom" asp-route-type="room"
+                                class="btn btn-view-detail">
+                                <i class="fas fa-eye icon"></i> Xem Chi Tiết
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function promptLogin(loginUrl) {
+        alert("Bạn cần đăng nhập với tư cách là chủ trọ để đăng bài.");
+        window.location.href = loginUrl;
+    }
+</script>

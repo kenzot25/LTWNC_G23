@@ -1,0 +1,105 @@
+@model G23NHNT.ViewModels.HousePostViewModel
+
+<h2>Đăng bài nhà trọ mới</h2>
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="House.NameHouse">Tên nhà trọ</label>
+        <input asp-for="House.NameHouse" class="form-control" />
+        <span asp-validation-for="House.NameHouse" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="House.QuantityRoom">Số lượng phòng</label>
+        <input asp-for="House.QuantityRoom" class="form-control" />
+        <span asp-validation-for="House.QuantityRoom" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="House.Category">Loại nhà trọ</label>
+        <input asp-for="House.Category" class="form-control" />
+        <span asp-validation-for="House.Category" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="HouseDetail.Address">Địa chỉ</label>
+        <input asp-for="HouseDetail.Address" class="form-control" />
+        <span asp-validation-for="HouseDetail.Address" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.Price">Giá thuê</label>
+        <input asp-for="HouseDetail.Price" class="form-control" />
+        <span asp-validation-for="HouseDetail.Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.DienTich">Diện tích (m²)</label>
+        <input asp-for="HouseDetail.DienTich" class="form-control" />
+        <span asp-validation-for="HouseDetail.DienTich" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.TienDien">Tiền điện</label>
+        <input asp-for="HouseDetail.TienDien" class="form-control" />
+        <span asp-validation-for="HouseDetail.TienDien" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.TienNuoc">Tiền nước</label>
+        <input asp-for="HouseDetail.TienNuoc" class="form-control" />
+        <span asp-validation-for="HouseDetail.TienNuoc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.TienDv">Tiền dịch vụ</label>
+        <input asp-for="HouseDetail.TienDv" class="form-control" />
+        <span asp-validation-for="HouseDetail.TienDv" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.Describe">Mô tả</label>
+        <textarea asp-for="HouseDetail.Describe" class="form-control"></textarea>
+        <span asp-validation-for="HouseDetail.Describe" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.Status">Trạng thái</label>
+        <input asp-for="HouseDetail.Status" class="form-control" />
+        <span asp-validation-for="HouseDetail.Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HouseDetail.Image">Hình ảnh</label>
+        <input asp-for="HouseDetail.Image" type="file" class="form-control" name ="imageFile" />
+        @if (!string.IsNullOrEmpty(Model.HouseDetail.Image))
+        {
+            <div class="mt-2">
+                <img src="~/@Model.HouseDetail.Image" alt="Ảnh của nhà trọ" style="max-width: 200px;" />
+            </div>
+        }
+        <span asp-validation-for="HouseDetail.Image" class="text-danger"></span>
+    </div>
+    @if (Model.HouseDetail.TimePost != DateTime.MinValue)
+    {
+        <div class="form-group">
+            <label>Thời gian đăng:</label>
+            <input type="text" class="form-control" value="@Model.HouseDetail.TimePost.ToString("dd/MM/yyyy HH:mm")" readonly />
+        </div>
+    }
+    <div class="form-group">
+        <label>Tiện ích</label>
+        @foreach (var amenity in Model.Amenities)
+        {
+            <div class="form-check">
+                <input type="checkbox" name="SelectedAmenities" value="@amenity.IdAmenity" class="form-check-input"
+                       @(Model.SelectedAmenities.Contains(amenity.IdAmenity) ? "checked" : "") />
+                <label class="form-check-label">@amenity.Name</label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng bài</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

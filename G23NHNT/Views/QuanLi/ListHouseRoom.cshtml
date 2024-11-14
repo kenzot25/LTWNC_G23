@@ -1,0 +1,175 @@
+@model G23NHNT.Models.HomeViewModel
+
+@{
+    ViewBag.Title = "Danh sách nhà trọ của người dùng";
+}
+
+<style>
+    h2,
+    h3 {
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table-custom {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    .table-custom thead {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #555;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .table-custom tbody tr {
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        border-right: 1px solid #ddd;
+    }
+
+    .table-custom th:last-child,
+    .table-custom td:last-child {
+        border-right: none;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        margin-right: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-view-detail {
+        background-color: #4CAF50;
+    }
+
+    .btn-warning {
+        background-color: #FFA500;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .btn-view-detail:hover {
+        background-color: #45a049;
+    }
+
+    /* Định dạng khác cho phần container */
+    .container {
+        width: 90%;
+        margin: auto;
+        font-family: Arial, sans-serif;
+    }
+</style>
+
+<div class="container">
+    <h2>Danh sách bài đăng của người dùng @ViewBag.UserName</h2>
+
+    <h3>Danh sách các nhà trọ</h3>
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th hidden>ID</th>
+                <th>Tên nhà trọ</th>
+                <th>Địa chỉ</th>
+                <th>Giá</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var house in Model.Houses)
+            {
+                <tr>
+                    <td hidden>@house.IdHouse</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@house.IdHouse" asp-route-type="house"
+                            class="btn btn-view-detail">
+                            @house.NameHouse
+                        </a>
+                    </td>
+                    <td>@house.HouseDetails.FirstOrDefault()?.Address</td>
+                    <td>@house.HouseDetails.FirstOrDefault()?.Price.ToString("#,0", new
+                                         System.Globalization.CultureInfo("vi-VN")) VND</td>
+                    <td>
+                        <a asp-action="EditHouse" asp-controller="QuanLi" asp-route-id="@house.IdHouse"
+                            class="btn btn-warning">Sửa</a>
+                        <a asp-action="Delete" asp-controller="QuanLi" asp-route-id="@house.IdHouse" class="btn btn-danger"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa nhà trọ này?');">Xóa</a>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@house.IdHouse" asp-route-type="house"
+                            class="btn btn-view-detail">
+                            Xem chi tiết
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Danh sách các phòng trọ</h3>
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th hidden>ID</th>
+                <th>Tên phòng trọ</th>
+                <th>Địa chỉ</th>
+                <th>Giá</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model.Rooms)
+            {
+                <tr>
+                    <td hidden>@room.IdRoom</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@room.IdRoom" asp-route-type="room"
+                            class="btn btn-view-detail">
+                            @room.NameRoom
+                        </a>
+                    </td>
+                    <td>@room.RoomDetails.FirstOrDefault()?.Address</td>
+                    <td>@room.RoomDetails.FirstOrDefault()?.Price.ToString("#,0", new
+                                 System.Globalization.CultureInfo("vi-VN")) VND</td>
+                    <td>
+                        <a asp-action="EditRoom" asp-controller="QuanLi" asp-route-id="@room.IdRoom"
+                            class="btn btn-warning">Sửa</a>
+                        <a asp-action="Delete" asp-controller="QuanLi" asp-route-id="@room.IdRoom" class="btn btn-danger"
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này?');">Xóa</a>
+                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@room.IdRoom" asp-route-type="room"
+                            class="btn btn-view-detail">
+                            Xem chi tiết
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

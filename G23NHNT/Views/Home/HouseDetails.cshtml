@@ -1,0 +1,137 @@
+@model G23NHNT.Models.House
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Nhà</title>
+    <link rel="stylesheet" href="~/css/Detail/Detail.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/review.css" asp-append-version="true" />
+</head>
+
+<div class="detail-container">
+    <h3 class="section-title">Thông Tin Chi Tiết</h3>
+    <div class="detail-content">
+        <div class="house-info">
+            <p><strong>Tên nhà:</strong> @Model.NameHouse</p>
+            <p><strong>Số phòng:</strong> @Model.QuantityRoom</p>
+            <p><strong>Loại:</strong> @Model.Category</p>
+
+            <ul class="detail-list">
+                @foreach (var detail in Model.HouseDetails)
+                {
+                    <li class="detail-item">
+                        <p><strong>Địa Chỉ:</strong> @detail.Address</p>
+                        <p><strong>Giá:</strong> @detail.Price.ToString("#,0", new
+                        System.Globalization.CultureInfo("vi-VN")) VND</p>
+                        <p><strong>Diện Tích:</strong> @detail.DienTich m²</p>
+                        <p><strong>Tiền Điện:</strong> @detail.TienDien VND</p>
+                        <p><strong>Tiền Nước:</strong> @detail.TienNuoc VND</p>
+                        <p><strong>Tiền Dịch Vụ:</strong> @detail.TienDv VND</p>
+                        <p><strong>Mô Tả:</strong> @detail.Describe</p>
+                        <p><strong>Trạng Thái:</strong> @detail.Status</p>
+                        <p><strong>Ngày Đăng:</strong> @detail.TimePost.ToString("dd/MM/yyyy")</p>
+                        <p><strong>Số điện thoại:</strong> @Model.IdUserNavigation?.PhoneNumber</p>
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <div class="image-section">
+            @foreach (var detail in Model.HouseDetails)
+            {
+                <img src="@detail.Image" alt="Hình ảnh" class="detail-image" />
+            }
+        </div>
+    </div>
+
+    <h3 class="section-title">Tiện Ích</h3>
+    <ul class="amenities-list">
+        @foreach (var amenity in Model.IdAmenities)
+        {
+            <li class="amenity-item">@amenity.Name</li>
+        }
+    </ul>
+
+    <h3 class="section-title">Đánh giá:</h3>
+    <div class="review-section">
+        @if (Model.Reviews != null && Model.Reviews.Any())
+        {
+            <ul class="review-list">
+                @foreach (var review in Model.Reviews)
+                {
+                    <li class="review-item">
+                        <strong>@review.IdUserNavigation.UserName</strong>: @review.Content.ToString()
+                        <span>(Rating: @review.Rating ★) </span>
+                        <p>Ngày đánh giá: @review.ReviewDate?.ToString("dd/MM/yyyy")</p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Chưa có đánh giá nào.</p>
+        }
+    </div>
+
+    <div class="review-form" data-house-id="@Model?.IdHouse">
+        <label for="Rating">Đánh giá:</label>
+        <div class="star-rating">
+            <input type="radio" name="rating" id="star5" value="5"><label for="star5" title="5 sao"></label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4" title="4 sao"></label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3" title="3 sao"></label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2" title="2 sao"></label>
+            <input type="radio" name="rating" id="star1" value="1"><label for="star1" title="1 sao"></label>
+        </div>
+
+        <label for="Content">Nội dung đánh giá:</label>
+        <textarea id="Content" maxlength="500" required></textarea>
+
+        <button type="button" onclick="submitReview()">Gửi đánh giá</button>
+        <p id="reviewMessage" style="display: none;"></p>
+    </div>
+
+    <script>
+        function submitReview() {
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const content = document.getElementById('Content').value;
+            const reviewMessage = document.getElementById('reviewMessage');
+
+            if (!rating || !content) {
+                reviewMessage.innerText = "Vui lòng nhập đầy đủ thông tin.";
+                reviewMessage.style.display = "block";
+                return;
+            }
+
+            const houseId = document.querySelector('.review-form').getAttribute('data-house-id');
+            if (!houseId) {
+                reviewMessage.innerText = "Không tìm thấy IdHouse. Vui lòng thử lại.";
+                reviewMessage.style.display = "block";
+                return;
+            }
+
+            const reviewData = {
+                Rating: parseInt(rating.value),
+                Content: content
+            };
+
+            $.ajax({
+                url: `/api/Detail/house/detail/${houseId}/addreview`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(reviewData),
+                success: function (result) {
+                    alert(result.message);
+                    location.reload();
+                },
+                error: function (xhr) {
+                    const errorDetail = xhr.responseJSON;
+                    console.error("Error Detail:", errorDetail);
+                    reviewMessage.innerText = errorDetail.message || "Lỗi không xác định.";
+                    if (errorDetail.errors) {
+                        reviewMessage.innerHTML += "<br>" + errorDetail.errors.join("<br>");
+                    }
+                    reviewMessage.style.display = "block";
+                }
+            });
+        }
+
+    </script>
