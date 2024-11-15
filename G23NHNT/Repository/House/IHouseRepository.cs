@@ -13,7 +13,7 @@ namespace G23NHNT.Repositories
         Task AddAsync(House house);
         Task UpdateAsync(House house);
         Task DeleteAsync(int id);
-        Task<IEnumerable<House>> GetHousesByCategoryAsync(string category);
+        //Task<IEnumerable<House>> GetHousesByCategoryAsync(string category);
         Task<List<House>> GetHousesByUserId(int userId);
     }
 }

@@ -12,16 +12,17 @@
     <div class="detail-content">
         <div class="house-info">
             <p><strong>Tên nhà:</strong> @Model.NameHouse</p>
-            <p><strong>Số phòng:</strong> @Model.QuantityRoom</p>
-            <p><strong>Loại:</strong> @Model.Category</p>
+            
 
             <ul class="detail-list">
                 @foreach (var detail in Model.HouseDetails)
                 {
                     <li class="detail-item">
                         <p><strong>Địa Chỉ:</strong> @detail.Address</p>
-                        <p><strong>Giá:</strong> @detail.Price.ToString("#,0", new
-                        System.Globalization.CultureInfo("vi-VN")) VND</p>
+                        <p>
+                            <strong>Giá:</strong> @detail.Price.ToString("#,0", new
+System.Globalization.CultureInfo("vi-VN")) VND
+                        </p>
                         <p><strong>Diện Tích:</strong> @detail.DienTich m²</p>
                         <p><strong>Tiền Điện:</strong> @detail.TienDien VND</p>
                         <p><strong>Tiền Nước:</strong> @detail.TienNuoc VND</p>
@@ -89,8 +90,7 @@
         <p id="reviewMessage" style="display: none;"></p>
     </div>
 
-    <script>
-        function submitReview() {
+    <script>function submitReview() {
             const rating = document.querySelector('input[name="rating"]:checked');
             const content = document.getElementById('Content').value;
             const reviewMessage = document.getElementById('reviewMessage');
@@ -132,6 +132,4 @@
                     reviewMessage.style.display = "block";
                 }
             });
-        }
-
-    </script>
+        }</script>

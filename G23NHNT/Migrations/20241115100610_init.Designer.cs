@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G23NHNT.Migrations
 {
     [DbContext(typeof(G23_NHNTContext))]
-    [Migration("20241113151421_PhoneNumberToAccount")]
-    partial class PhoneNumberToAccount
+    [Migration("20241115100610_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,7 +40,8 @@ namespace G23NHNT.Migrations
                         .HasColumnName("password");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -104,10 +105,6 @@ namespace G23NHNT.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("nameHouse");
 
-                    b.Property<int?>("QuantityRoom")
-                        .HasColumnType("int")
-                        .HasColumnName("quantityRoom");
-
                     b.HasKey("IdHouse")
                         .HasName("PK__House__AF515CBF563343EC");
 
@@ -132,7 +129,8 @@ namespace G23NHNT.Migrations
                         .HasColumnName("address");
 
                     b.Property<string>("Describe")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("describe");
 
                     b.Property<double>("DienTich")
@@ -208,8 +206,7 @@ namespace G23NHNT.Migrations
                         .HasColumnName("idHouse");
 
                     b.Property<int?>("IdRoom")
-                        .HasColumnType("int")
-                        .HasColumnName("idRoom");
+                        .HasColumnType("int");
 
                     b.Property<int>("IdUser")
                         .HasColumnType("int")
@@ -230,116 +227,9 @@ namespace G23NHNT.Migrations
 
                     b.HasIndex("IdHouse");
 
-                    b.HasIndex("IdRoom");
-
                     b.HasIndex("IdUser");
 
                     b.ToTable("Review", (string)null);
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.Room", b =>
-                {
-                    b.Property<int>("IdRoom")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("idRoom");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRoom"), 1L, 1);
-
-                    b.Property<int>("IdUser")
-                        .HasColumnType("int")
-                        .HasColumnName("idUser");
-
-                    b.Property<string>("NameRoom")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("nameRoom");
-
-                    b.Property<string>("TypeRoom")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("typeRoom");
-
-                    b.HasKey("IdRoom")
-                        .HasName("PK__Room__E5F8C226E411235B");
-
-                    b.HasIndex("IdUser");
-
-                    b.ToTable("Room", (string)null);
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.RoomDetail", b =>
-                {
-                    b.Property<int>("IdRoomDetail")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("idRoomDetail");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRoomDetail"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("address");
-
-                    b.Property<string>("Describe")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("describe");
-
-                    b.Property<double>("DienTich")
-                        .HasColumnType("float")
-                        .HasColumnName("dienTich");
-
-                    b.Property<int>("IdRoom")
-                        .HasColumnType("int")
-                        .HasColumnName("idRoom");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("image");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(10,2)")
-                        .HasColumnName("price");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("status");
-
-                    b.Property<string>("TienDien")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("tienDien");
-
-                    b.Property<string>("TienDv")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("tienDV");
-
-                    b.Property<string>("TienNuoc")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("tienNuoc");
-
-                    b.Property<DateTime>("TimePost")
-                        .HasColumnType("datetime")
-                        .HasColumnName("timePost");
-
-                    b.HasKey("IdRoomDetail")
-                        .HasName("PK__RoomDeta__483220176A61064B");
-
-                    b.HasIndex("IdRoom");
-
-                    b.ToTable("RoomDetail", (string)null);
                 });
 
             modelBuilder.Entity("HouseAmenity", b =>
@@ -358,24 +248,6 @@ namespace G23NHNT.Migrations
                     b.HasIndex("IdAmenity");
 
                     b.ToTable("HouseAmenities", (string)null);
-                });
-
-            modelBuilder.Entity("RoomAmenity", b =>
-                {
-                    b.Property<int>("IdRoom")
-                        .HasColumnType("int")
-                        .HasColumnName("idRoom");
-
-                    b.Property<int>("IdAmenity")
-                        .HasColumnType("int")
-                        .HasColumnName("idAmenity");
-
-                    b.HasKey("IdRoom", "IdAmenity")
-                        .HasName("PK__RoomAmen__69E3CF7E86FA3B71");
-
-                    b.HasIndex("IdAmenity");
-
-                    b.ToTable("RoomAmenities", (string)null);
                 });
 
             modelBuilder.Entity("G23NHNT.Models.House", b =>
@@ -407,11 +279,6 @@ namespace G23NHNT.Migrations
                         .HasForeignKey("IdHouse")
                         .HasConstraintName("FK__Review__idHouse__66603565");
 
-                    b.HasOne("G23NHNT.Models.Room", "IdRoomNavigation")
-                        .WithMany("Reviews")
-                        .HasForeignKey("IdRoom")
-                        .HasConstraintName("FK__Review__idRoom__656C112C");
-
                     b.HasOne("G23NHNT.Models.Account", "IdUserNavigation")
                         .WithMany("Reviews")
                         .HasForeignKey("IdUser")
@@ -420,31 +287,7 @@ namespace G23NHNT.Migrations
 
                     b.Navigation("IdHouseNavigation");
 
-                    b.Navigation("IdRoomNavigation");
-
                     b.Navigation("IdUserNavigation");
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.Room", b =>
-                {
-                    b.HasOne("G23NHNT.Models.Account", "IdUserNavigation")
-                        .WithMany("Rooms")
-                        .HasForeignKey("IdUser")
-                        .IsRequired()
-                        .HasConstraintName("FK_Room_Account");
-
-                    b.Navigation("IdUserNavigation");
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.RoomDetail", b =>
-                {
-                    b.HasOne("G23NHNT.Models.Room", "IdRoomNavigation")
-                        .WithMany("RoomDetails")
-                        .HasForeignKey("IdRoom")
-                        .IsRequired()
-                        .HasConstraintName("FK_RoomDetail_Room");
-
-                    b.Navigation("IdRoomNavigation");
                 });
 
             modelBuilder.Entity("HouseAmenity", b =>
@@ -462,28 +305,11 @@ namespace G23NHNT.Migrations
                         .HasConstraintName("FK__HouseAmen__idHou__5EBF139D");
                 });
 
-            modelBuilder.Entity("RoomAmenity", b =>
-                {
-                    b.HasOne("G23NHNT.Models.Amenity", null)
-                        .WithMany()
-                        .HasForeignKey("IdAmenity")
-                        .IsRequired()
-                        .HasConstraintName("FK__RoomAmeni__idAme__5BE2A6F2");
-
-                    b.HasOne("G23NHNT.Models.Room", null)
-                        .WithMany()
-                        .HasForeignKey("IdRoom")
-                        .IsRequired()
-                        .HasConstraintName("FK__RoomAmeni__idRoo__5AEE82B9");
-                });
-
             modelBuilder.Entity("G23NHNT.Models.Account", b =>
                 {
                     b.Navigation("Houses");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("G23NHNT.Models.House", b =>
@@ -491,13 +317,6 @@ namespace G23NHNT.Migrations
                     b.Navigation("HouseDetails");
 
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.Room", b =>
-                {
-                    b.Navigation("Reviews");
-
-                    b.Navigation("RoomDetails");
                 });
 #pragma warning restore 612, 618
         }

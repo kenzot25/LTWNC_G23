@@ -1,5 +1,6 @@
 using G23NHNT.Models;
 using G23NHNT.Repositories;
+using G23NHNT.Repository.House;
 using G23NHNT.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -27,13 +28,13 @@ builder.Services.AddDbContext<G23_NHNTContext>(options =>
 
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IHouseRepository, HouseRepository>();
-builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IHouseDetailRepository, HouseDetailRepository>();
-builder.Services.AddScoped<IRoomDetailRepository, RoomDetailRepository>();
 builder.Services.AddScoped<IAmenityRepository, AmenityRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<HouseService>();
-builder.Services.AddScoped<RoomService>();
+builder.Services.AddScoped<IHouseTypeRepository, HouseTypeRepository>();
+
+
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

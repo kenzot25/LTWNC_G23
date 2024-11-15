@@ -7,7 +7,6 @@ namespace G23NHNT.Models
     public class HomeViewModel
     {
         public IEnumerable<House> Houses { get; set; }
-        public IEnumerable<Room> Rooms { get; set; }
         public bool IsChuTro { get; set; } 
     }
 }

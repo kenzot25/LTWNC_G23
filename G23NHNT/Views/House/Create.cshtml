@@ -1,7 +1,10 @@
 @model G23NHNT.ViewModels.HousePostViewModel
 
 <h2>Đăng bài nhà trọ mới</h2>
-
+@if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+{
+    <div class="alert alert-danger">@ViewData["ErrorMessage"]</div>
+}
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="House.NameHouse">Tên nhà trọ</label>
@@ -10,16 +13,13 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="House.QuantityRoom">Số lượng phòng</label>
-        <input asp-for="House.QuantityRoom" class="form-control" />
-        <span asp-validation-for="House.QuantityRoom" class="text-danger"></span>
+        <label>Loại nhà trọ</label>
+        <select asp-for="SelectedHouseType" asp-items="Model.HouseTypes" class="form-control">
+            <option value="">-- Chọn loại nhà trọ --</option>
+        </select>
+        <span asp-validation-for="SelectedHouseType" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="House.Category">Loại nhà trọ</label>
-        <input asp-for="House.Category" class="form-control" />
-        <span asp-validation-for="House.Category" class="text-danger"></span>
-    </div>
     <div class="form-group">
         <label asp-for="HouseDetail.Address">Địa chỉ</label>
         <input asp-for="HouseDetail.Address" class="form-control" />
@@ -79,6 +79,7 @@
         }
         <span asp-validation-for="HouseDetail.Image" class="text-danger"></span>
     </div>
+
     @if (Model.HouseDetail.TimePost != DateTime.MinValue)
     {
         <div class="form-group">
@@ -86,6 +87,7 @@
             <input type="text" class="form-control" value="@Model.HouseDetail.TimePost.ToString("dd/MM/yyyy HH:mm")" readonly />
         </div>
     }
+
     <div class="form-group">
         <label>Tiện ích</label>
         @foreach (var amenity in Model.Amenities)
@@ -97,6 +99,7 @@
             </div>
         }
     </div>
+
     <button type="submit" class="btn btn-primary">Đăng bài</button>
 </form>
 

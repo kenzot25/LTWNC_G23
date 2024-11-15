@@ -132,44 +132,4 @@
             }
         </tbody>
     </table>
-
-    <h3>Danh sách các phòng trọ</h3>
-    <table class="table-custom">
-        <thead>
-            <tr>
-                <th hidden>ID</th>
-                <th>Tên phòng trọ</th>
-                <th>Địa chỉ</th>
-                <th>Giá</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var room in Model.Rooms)
-            {
-                <tr>
-                    <td hidden>@room.IdRoom</td>
-                    <td>
-                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@room.IdRoom" asp-route-type="room"
-                            class="btn btn-view-detail">
-                            @room.NameRoom
-                        </a>
-                    </td>
-                    <td>@room.RoomDetails.FirstOrDefault()?.Address</td>
-                    <td>@room.RoomDetails.FirstOrDefault()?.Price.ToString("#,0", new
-                                 System.Globalization.CultureInfo("vi-VN")) VND</td>
-                    <td>
-                        <a asp-action="EditRoom" asp-controller="QuanLi" asp-route-id="@room.IdRoom"
-                            class="btn btn-warning">Sửa</a>
-                        <a asp-action="Delete" asp-controller="QuanLi" asp-route-id="@room.IdRoom" class="btn btn-danger"
-                            onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này?');">Xóa</a>
-                        <a asp-controller="Home" asp-action="Detail" asp-route-id="@room.IdRoom" asp-route-type="room"
-                            class="btn btn-view-detail">
-                            Xem chi tiết
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
 </div>

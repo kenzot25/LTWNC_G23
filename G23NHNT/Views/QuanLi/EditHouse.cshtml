@@ -12,15 +12,11 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="House.QuantityRoom">Số lượng phòng</label>
-        <input asp-for="House.QuantityRoom" class="form-control" />
-        <span asp-validation-for="House.QuantityRoom" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="House.Category">Loại nhà trọ</label>
-        <input asp-for="House.Category" class="form-control" />
-        <span asp-validation-for="House.Category" class="text-danger"></span>
+        <label>Loại nhà trọ</label>
+        <select asp-for="SelectedHouseType" asp-items="Model.HouseTypes" class="form-control">
+            <option value="">-- Chọn loại nhà trọ --</option>
+        </select>
+        <span asp-validation-for="SelectedHouseType" class="text-danger"></span>
     </div>
 
     <div class="form-group">

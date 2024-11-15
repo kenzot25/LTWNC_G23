@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using G23NHNT.ViewModels;
+using G23NHNT.Repository.House;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace G23NHNT.Controllers
 {
@@ -11,17 +13,17 @@ namespace G23NHNT.Controllers
     {
         private readonly IHouseRepository _houseRepository;
         private readonly IHouseDetailRepository _houseDetailRepository;
-        private readonly IRoomDetailRepository _roomDetailRepository;
-        private readonly IRoomRepository _roomRepository;
-        
+        private readonly IHouseTypeRepository _houseTypeRepository;
+        private readonly IAmenityRepository _amenityRepository;
 
 
-        public QuanLiController(IHouseRepository houseRepository, IRoomRepository roomRepository, IHouseDetailRepository houseDetailRepository, IRoomDetailRepository roomDetailRepository)
+        public QuanLiController(IHouseRepository houseRepository, IHouseDetailRepository houseDetailRepository,
+            IHouseTypeRepository houseTypeRepository, IAmenityRepository amenityRepository)
         {
             _houseRepository = houseRepository;
-            _roomRepository = roomRepository;
             _houseDetailRepository = houseDetailRepository;
-            _roomDetailRepository = roomDetailRepository;
+            _houseTypeRepository = houseTypeRepository;
+            _amenityRepository = amenityRepository;
         }
 
         public async Task<IActionResult> ListHouseRoom()
@@ -32,13 +34,11 @@ namespace G23NHNT.Controllers
                 string userName = HttpContext.Session.GetString("UserName") ?? "";
 
                 var houses = await _houseRepository.GetHousesByUserId(userId);
-                var rooms = await _roomRepository.GetRoomsByUserId(userId);
 
                 // Sử dụng HomeViewModel
                 var viewModel = new HomeViewModel
                 {
                     Houses = houses,
-                    Rooms = rooms,
                     IsChuTro = true
                 };
 
@@ -67,12 +67,18 @@ namespace G23NHNT.Controllers
             {
                 House = house,
                 HouseDetail = house.HouseDetails.FirstOrDefault(),
-                SelectedAmenities = house.IdAmenities.Select(a => a.IdAmenity).ToList()
+                SelectedAmenities = house.IdAmenities.Select(a => a.IdAmenity).ToList(),
+                Amenities = (await _amenityRepository.GetAllAmenitiesAsync()).ToList(),
+                HouseTypes = (await _houseTypeRepository.GetAllHouseTypes()).Select(ht => new SelectListItem
+                {
+                    Value = ht.IdHouseType.ToString(),
+                    Text = ht.Name
+                }),
             };
 
             return View(viewModel);
         }
 
-       
+
     }
 }

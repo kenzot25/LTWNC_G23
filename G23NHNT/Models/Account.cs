@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace G23NHNT.Models
 {
@@ -10,9 +11,9 @@ namespace G23NHNT.Models
         {
             Houses = new HashSet<House>();
             Reviews = new HashSet<Review>();
-            Rooms = new HashSet<Room>();
         }
 
+        [Key]
         public int IdUser { get; set; }
 
         [Required(ErrorMessage = "Tên đăng nhập là bắt buộc.")]
@@ -26,10 +27,12 @@ namespace G23NHNT.Models
         [Range(1, 2, ErrorMessage = "Vai trò không hợp lệ.")]
         public int Role { get; set; }
 
-        public string? PhoneNumber {get; set;}
+        [Phone]
+        [StringLength(15, ErrorMessage = "Số điện thoại không hợp lệ.")]
+        public string? PhoneNumber { get; set; }
 
+        // Navigation properties
         public virtual ICollection<House> Houses { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Room> Rooms { get; set; }
     }
 }
