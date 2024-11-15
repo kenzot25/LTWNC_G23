@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G23NHNT.Migrations
 {
     [DbContext(typeof(G23_NHNTContext))]
-    [Migration("20241113151421_PhoneNumberToAccount")]
-    partial class PhoneNumberToAccount
+    [Migration("20241115062352_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
