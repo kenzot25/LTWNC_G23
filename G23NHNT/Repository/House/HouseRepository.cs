@@ -89,12 +89,12 @@ namespace G23NHNT.Repositories
                            .Where(h => h.IdUser == userId)
                            .ToListAsync();
         }
-        public async Task<IEnumerable<House>> GetHousesByCategoryAsync(string category)
-        {
-            return await _context.Houses
-                .Where(h => h.Category == category)
-                .Include(h => h.IdUserNavigation)
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<House>> GetHousesByCategoryAsync(string category)
+        //{
+        //    return await _context.Houses
+        //        .Where(h => h.Category == category)
+        //        .Include(h => h.IdUserNavigation)
+        //        .ToListAsync();
+        //}
     }
 }

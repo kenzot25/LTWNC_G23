@@ -5,9 +5,12 @@ using G23NHNT.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace G23NHNT.Controllers
@@ -18,13 +21,16 @@ namespace G23NHNT.Controllers
         private readonly IAmenityRepository _amenityRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly G23_NHNTContext _context;
+        private readonly IHouseTypeRepository _houseTypeRepository;
 
-        public HouseController(HouseService houseService, IAmenityRepository amenityRepository, IWebHostEnvironment webHostEnvironment, G23_NHNTContext context)
+
+        public HouseController(HouseService houseService, IAmenityRepository amenityRepository, IWebHostEnvironment webHostEnvironment, G23_NHNTContext context, IHouseTypeRepository houseTypeRepository)
         {
             _houseService = houseService;
             _amenityRepository = amenityRepository;
             _webHostEnvironment = webHostEnvironment;
             _context = context;
+            _houseTypeRepository = houseTypeRepository;
         }
 
         [HttpGet]
@@ -32,7 +38,12 @@ namespace G23NHNT.Controllers
         {
             var model = new HousePostViewModel
             {
-                Amenities = (await _amenityRepository.GetAllAmenitiesAsync()).ToList()
+                Amenities = (await _amenityRepository.GetAllAmenitiesAsync()).ToList(),
+                HouseTypes = (await _houseTypeRepository.GetAllHouseTypes()).Select(ht => new SelectListItem
+                {
+                    Value = ht.IdHouseType.ToString(),
+                    Text = ht.Name
+                }),
             };
             return View(model);
         }
@@ -75,15 +86,16 @@ namespace G23NHNT.Controllers
                 model.HouseDetail.Image = Path.Combine("/img", "houses", uniqueFileName).Replace("\\", "/");
             }
             model.House.IdUser = HttpContext.Session.GetInt32("UserId") ?? 0;
+            model.House.HouseTypeId = model.SelectedHouseType;
             var result = await _houseService.CreateHouseAsync(model);
             if (result)
             {
-                return RedirectToAction("Index", "Home"); 
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 ModelState.AddModelError("", "Có lỗi xảy ra khi tạo bài đăng.");
-                model.Amenities = (await _amenityRepository.GetAllAmenitiesAsync()).ToList(); 
+                model.Amenities = (await _amenityRepository.GetAllAmenitiesAsync()).ToList();
                 return View(model);
             }
         }

@@ -4,6 +4,7 @@ using G23NHNT.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace G23NHNT.Migrations
 {
     [DbContext(typeof(G23_NHNTContext))]
-    partial class G23_NHNTContextModelSnapshot : ModelSnapshot
+    [Migration("20241115100610_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,33 +24,20 @@ namespace G23NHNT.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("AmenityHouse", b =>
-                {
-                    b.Property<int>("IdAmenitiesIdAmenity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdHousesIdHouse")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdAmenitiesIdAmenity", "IdHousesIdHouse");
-
-                    b.HasIndex("IdHousesIdHouse");
-
-                    b.ToTable("AmenityHouse");
-                });
-
             modelBuilder.Entity("G23NHNT.Models.Account", b =>
                 {
                     b.Property<int>("IdUser")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idUser");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUser"), 1L, 1);
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("password");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
@@ -60,27 +49,33 @@ namespace G23NHNT.Migrations
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("userName");
 
-                    b.HasKey("IdUser");
+                    b.HasKey("IdUser")
+                        .HasName("PK__Account__3717C98210B6EA83");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Account", (string)null);
                 });
 
             modelBuilder.Entity("G23NHNT.Models.Amenity", b =>
                 {
                     b.Property<int>("IdAmenity")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idAmenity");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAmenity"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name");
 
-                    b.HasKey("IdAmenity");
+                    b.HasKey("IdAmenity")
+                        .HasName("PK__Amenitie__C1B0D589CDE1290A");
 
                     b.ToTable("Amenities");
                 });
@@ -89,177 +84,179 @@ namespace G23NHNT.Migrations
                 {
                     b.Property<int>("IdHouse")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idHouse");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHouse"), 1L, 1);
 
-                    b.Property<int>("HouseTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("category");
 
                     b.Property<int>("IdUser")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idUser");
 
                     b.Property<string>("NameHouse")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("nameHouse");
 
-                    b.HasKey("IdHouse");
-
-                    b.HasIndex("HouseTypeId");
+                    b.HasKey("IdHouse")
+                        .HasName("PK__House__AF515CBF563343EC");
 
                     b.HasIndex("IdUser");
 
-                    b.ToTable("Houses");
+                    b.ToTable("House", (string)null);
                 });
 
             modelBuilder.Entity("G23NHNT.Models.HouseDetail", b =>
                 {
                     b.Property<int>("IdHouseDetail")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idHouseDetail");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHouseDetail"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("address");
 
                     b.Property<string>("Describe")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("describe");
 
                     b.Property<double>("DienTich")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("dienTich");
 
                     b.Property<int>("IdHouse")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idHouse");
 
                     b.Property<string>("Image")
                         .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("image");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("price");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("status");
 
                     b.Property<string>("TienDien")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("tienDien");
 
                     b.Property<string>("TienDv")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("tienDV");
 
                     b.Property<string>("TienNuoc")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("tienNuoc");
 
                     b.Property<DateTime>("TimePost")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime")
+                        .HasColumnName("timePost");
 
-                    b.HasKey("IdHouseDetail");
+                    b.HasKey("IdHouseDetail")
+                        .HasName("PK__HouseDet__946F757FD8C7B0A6");
 
                     b.HasIndex("IdHouse");
 
-                    b.ToTable("HouseDetails");
-                });
-
-            modelBuilder.Entity("G23NHNT.Models.HouseType", b =>
-                {
-                    b.Property<int>("IdHouseType")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdHouseType"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdHouseType");
-
-                    b.ToTable("HouseType");
+                    b.ToTable("HouseDetail", (string)null);
                 });
 
             modelBuilder.Entity("G23NHNT.Models.Review", b =>
                 {
                     b.Property<int>("IdReview")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idReview");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdReview"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("text")
+                        .HasColumnName("content");
 
                     b.Property<int?>("IdHouse")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idHouse");
 
                     b.Property<int?>("IdRoom")
                         .HasColumnType("int");
 
                     b.Property<int>("IdUser")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("idUser");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("rating");
 
                     b.Property<DateTime?>("ReviewDate")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("reviewDate")
+                        .HasDefaultValueSql("(getdate())");
 
-                    b.HasKey("IdReview");
+                    b.HasKey("IdReview")
+                        .HasName("PK__Review__04F7FE108ECD5FA1");
 
                     b.HasIndex("IdHouse");
 
                     b.HasIndex("IdUser");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Review", (string)null);
                 });
 
-            modelBuilder.Entity("AmenityHouse", b =>
+            modelBuilder.Entity("HouseAmenity", b =>
                 {
-                    b.HasOne("G23NHNT.Models.Amenity", null)
-                        .WithMany()
-                        .HasForeignKey("IdAmenitiesIdAmenity")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("IdHouse")
+                        .HasColumnType("int")
+                        .HasColumnName("idHouse");
 
-                    b.HasOne("G23NHNT.Models.House", null)
-                        .WithMany()
-                        .HasForeignKey("IdHousesIdHouse")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("IdAmenity")
+                        .HasColumnType("int")
+                        .HasColumnName("idAmenity");
+
+                    b.HasKey("IdHouse", "IdAmenity")
+                        .HasName("PK__HouseAme__234A51E7ED05E3B2");
+
+                    b.HasIndex("IdAmenity");
+
+                    b.ToTable("HouseAmenities", (string)null);
                 });
 
             modelBuilder.Entity("G23NHNT.Models.House", b =>
                 {
-                    b.HasOne("G23NHNT.Models.HouseType", "HouseType")
-                        .WithMany()
-                        .HasForeignKey("HouseTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("G23NHNT.Models.Account", "IdUserNavigation")
                         .WithMany("Houses")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HouseType");
+                        .IsRequired()
+                        .HasConstraintName("FK_House_Account");
 
                     b.Navigation("IdUserNavigation");
                 });
@@ -269,8 +266,8 @@ namespace G23NHNT.Migrations
                     b.HasOne("G23NHNT.Models.House", "IdHouseNavigation")
                         .WithMany("HouseDetails")
                         .HasForeignKey("IdHouse")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_HouseDetail_House");
 
                     b.Navigation("IdHouseNavigation");
                 });
@@ -279,17 +276,33 @@ namespace G23NHNT.Migrations
                 {
                     b.HasOne("G23NHNT.Models.House", "IdHouseNavigation")
                         .WithMany("Reviews")
-                        .HasForeignKey("IdHouse");
+                        .HasForeignKey("IdHouse")
+                        .HasConstraintName("FK__Review__idHouse__66603565");
 
                     b.HasOne("G23NHNT.Models.Account", "IdUserNavigation")
                         .WithMany("Reviews")
                         .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK__Review__idUser__6477ECF3");
 
                     b.Navigation("IdHouseNavigation");
 
                     b.Navigation("IdUserNavigation");
+                });
+
+            modelBuilder.Entity("HouseAmenity", b =>
+                {
+                    b.HasOne("G23NHNT.Models.Amenity", null)
+                        .WithMany()
+                        .HasForeignKey("IdAmenity")
+                        .IsRequired()
+                        .HasConstraintName("FK__HouseAmen__idAme__5FB337D6");
+
+                    b.HasOne("G23NHNT.Models.House", null)
+                        .WithMany()
+                        .HasForeignKey("IdHouse")
+                        .IsRequired()
+                        .HasConstraintName("FK__HouseAmen__idHou__5EBF139D");
                 });
 
             modelBuilder.Entity("G23NHNT.Models.Account", b =>

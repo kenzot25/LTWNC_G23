@@ -21,12 +21,15 @@ namespace G23NHNT.Repositories
             return await _context.HouseDetails.Include(h => h.IdHouseNavigation).ToListAsync();
         }
 
-        public async Task<HouseDetail> GetHouseDetailByIdAsync(int id)
+        public async Task<HouseDetail?> GetHouseDetailByIdAsync(int id)
         {
-            return await _context.HouseDetails
+            var houseDetail = await _context.HouseDetails
                 .Include(h => h.IdHouseNavigation)
                 .FirstOrDefaultAsync(h => h.IdHouseDetail == id);
+
+            return houseDetail;
         }
+
         public async Task AddAsync(HouseDetail houseDetail)
         {
             try

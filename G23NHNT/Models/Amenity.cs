@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace G23NHNT.Models
 {
@@ -8,13 +9,16 @@ namespace G23NHNT.Models
         public Amenity()
         {
             IdHouses = new HashSet<House>();
-            IdRooms = new HashSet<Room>();
         }
 
+        [Key]
         public int IdAmenity { get; set; }
+
+        [Required(ErrorMessage = "Tên tiện nghi là bắt buộc.")]
+        [StringLength(100, ErrorMessage = "Tên tiện nghi phải dưới 100 ký tự.")]
         public string Name { get; set; } = null!;
 
+        // Navigation property
         public virtual ICollection<House> IdHouses { get; set; }
-        public virtual ICollection<Room> IdRooms { get; set; }
     }
 }

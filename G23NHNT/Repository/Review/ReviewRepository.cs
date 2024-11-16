@@ -19,13 +19,7 @@ public class ReviewRepository : IReviewRepository
             .Include(r => r.IdUserNavigation)
             .ToListAsync();
     }
-    public async Task<IEnumerable<Review>> GetReviewsByRoomIdAsync(int roomId)
-    {
-        return await _context.Reviews
-            .Where(r => r.IdRoom == roomId)
-            .Include(r => r.IdUserNavigation)
-            .ToListAsync();
-    }
+
     public async Task AddReviewAsync(Review review)
     {
         try
