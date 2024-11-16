@@ -20,6 +20,7 @@ namespace G23NHNT.Repositories
         {
             return await _context.Houses
                 .Include(h => h.HouseDetails)
+                .Include (h => h.HouseType)
                 .Include(h => h.IdAmenities)
                 .Include(h => h.IdUserNavigation)
                 .ToListAsync();
@@ -29,6 +30,7 @@ namespace G23NHNT.Repositories
             return await _context.Houses
                .Include(h => h.HouseDetails)
                .Include(h => h.IdAmenities)
+               .Include (h =>h.HouseType)
                 .Include(h => h.IdUserNavigation)
                .Include(h => h.Reviews)
                    .ThenInclude(review => review.IdUserNavigation)

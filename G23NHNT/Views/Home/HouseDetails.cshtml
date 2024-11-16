@@ -12,8 +12,7 @@
     <div class="detail-content">
         <div class="house-info">
             <p><strong>Tên nhà:</strong> @Model.NameHouse</p>
-            
-
+            <p><strong>Loại nhà trọ : </strong> @Model.HouseType.Name</p>
             <ul class="detail-list">
                 @foreach (var detail in Model.HouseDetails)
                 {
@@ -21,7 +20,7 @@
                         <p><strong>Địa Chỉ:</strong> @detail.Address</p>
                         <p>
                             <strong>Giá:</strong> @detail.Price.ToString("#,0", new
-System.Globalization.CultureInfo("vi-VN")) VND
+                        System.Globalization.CultureInfo("vi-VN")) VND
                         </p>
                         <p><strong>Diện Tích:</strong> @detail.DienTich m²</p>
                         <p><strong>Tiền Điện:</strong> @detail.TienDien VND</p>

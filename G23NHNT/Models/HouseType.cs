@@ -30,7 +30,6 @@ namespace G23NHNT.Models
         [Required(ErrorMessage = "Tên loại nhà không được để trống.")]
         [StringLength(100, ErrorMessage = "Tên loại nhà không được vượt quá 100 ký tự.")]
         public string Name { get; set; } = null!;
-
         [Required]
         public HouseTypeEnum Type { get; set; }
     }
