@@ -10,6 +10,7 @@ namespace G23NHNT.ViewModels
         public IEnumerable<Review> Reviews { get; set; }
         public IEnumerable<HouseType> HouseTypes { get; set; }
 
+
     }
 }
 

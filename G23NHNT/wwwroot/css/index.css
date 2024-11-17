@@ -1,143 +1,110 @@
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    /* Tùy chọn: xóa viền card */
-    border-radius: 10px;
-    /* Bo góc card */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.filter-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.filter-item {
+    margin-bottom: 20px;
+}
+
+.filter-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-item select,
+.checkbox-group input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.house-list {
+    margin-top: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.house-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     overflow: hidden;
-    /* Ẩn các phần thừa ra ngoài card */
-    position: relative;
-    /* Đặt vị trí cho các thành phần con */
+    text-align: left;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    /* Di chuyển card lên một chút khi hover */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    /* Tạo bóng cho card khi hover */
-}
-
-.card-img-top {
-    border-bottom: 2px solid #007bff;
-    /* Viền cho ảnh ở đầu card */
+.house-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
 .card-body {
-    background-color: #f8f9fa;
-    /* Màu nền cho body của card */
+    padding: 15px;
+}
+
+.card-body h5 {
+    margin: 0 0 10px;
 }
 
 .btn-view-detail {
-    background-color: transparent;
-    /* Nền trong suốt */
-    border: 2px solid #6c757d;
-    /* Viền màu xám */
-    border-radius: 50px;
-    /* Viền hình elip */
-    color: #6c757d;
-    /* Màu chữ xám */
-    opacity: 0;
-    /* Ẩn nút ban đầu */
-    transition: opacity 0.3s ease;
-    /* Hiệu ứng chuyển màu khi hover */
-    position: absolute;
-    /* Đặt vị trí của nút ở giữa ảnh */
-    top: 50%;
-    /* Đặt ở giữa theo chiều dọc */
-    left: 50%;
-    /* Đặt ở giữa theo chiều ngang */
-    transform: translate(-50%, -50%);
-    /* Canh giữa nút */
-    padding: 10px 20px;
-    /* Padding cho nút */
-    font-weight: bold;
-    /* Đậm chữ */
-    top: 15vh;
+    display: inline-block;
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #dc3545;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
-.card:hover .btn-view-detail {
-    opacity: 1;
-    /* Hiện nút khi hover vào card */
-    color: red;
+.btn-view-detail:hover {
+    background-color: #a71d2a;
 }
 
-.mt-4 {
-    margin-top: 2rem;
-    /* Tạo khoảng cách cho các tiêu đề */
+
+.container-body {
+    scrollbar-width: thin;
+    scrollbar-color: #d6d6d6 transparent;
 }
 
-.mb-3 {
-    margin-bottom: 1rem;
-    /* Tạo khoảng cách cho các card */
-}
-
-.container-fluid {
-    padding-left: 50px;
-    padding-right: 50px;
-    margin: 0px;
-}
-
-.icon {
-    margin-right: 5px;
-    /* Khoảng cách giữa icon và chữ */
-}
-.navbar {
-        background-color: #007bff;
-        color: white;
-        height: 65px;
-        width: 100%;
-        z-index: 1000;
-        top: 0;
-        position: fixed;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    .container-body::-webkit-scrollbar {
+        width: 8px;
     }
 
-    .navbar .navbar-brand {
-        font-weight: bold;
-        color: white;
-        font-size: 24px;
-        margin-left: 20px;
-    }
-
-    .navbar .nav-link {
-        color: white !important;
-    }
-
-    .navbar .nav-link:hover {
-        color: #cce7ff !important;
-    }
-
-    .functional-bar {
-        background-color: #e9ecef;
-        padding: 10px 20px;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: 0px;
-        /* Để thanh này nằm ngay dưới header */
-        gap: 10px;
-        /* Khoảng cách giữa các phần tử */
-    }
-
-    /* Thanh tìm kiếm */
-    .functional-bar .search-bar {
-        flex: 1;
-        max-width: 400px;
-        margin: 0;
-        /* Xóa khoảng cách bên ngoài */
-    }
-
-    .functional-bar .search-bar input {
-        width: 100%;
-        padding: 5px 10px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-    }
-
-    /* Nút "Danh mục" và "Đăng nhà trọ" */
-    .functional-bar .btn-category,
-    .functional-bar .btn-post {
-        margin: 0;
-        white-space: nowrap;
+    .container-body::-webkit-scrollbar-thumb {
+        background-color: #d6d6d6;
+        border-radius: 10px;
     }

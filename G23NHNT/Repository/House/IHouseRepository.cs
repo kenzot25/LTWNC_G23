@@ -8,12 +8,13 @@ namespace G23NHNT.Repositories
 {
     public interface IHouseRepository
     {
-        Task<IEnumerable<House>> GetAllHousesAsync();
+        Task<IEnumerable<House>> GetAllHousesAsync(string searchString);
         Task<House> GetHouseWithDetailsAsync(int id);
         Task AddAsync(House house);
         Task UpdateAsync(House house);
         Task DeleteAsync(int id);
         //Task<IEnumerable<House>> GetHousesByCategoryAsync(string category);
         Task<List<House>> GetHousesByUserId(int userId);
+        Task<IEnumerable<House>> GetFilteredHousesAsync(string searchString, string priceRange, string sortBy, string roomType, List<string> amenities);
     }
 }
